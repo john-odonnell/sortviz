@@ -99,12 +99,13 @@ int main(int argc, char* argv[]) {
     // sdl event loop
     // starts the given sorting algorithm upon keypress
     bool quit = false;
+    bool done = false;
     SDL_Event e;
     while (!quit) {
         while (SDL_PollEvent(&e) != 0) {
             if (e.type == SDL_QUIT) {
                 quit = true;
-            } else if (e.type == SDL_KEYDOWN) {
+            } else if (e.type == SDL_KEYDOWN && done == false) {
                 if (strcmp(sortType, "bl") == 0) {
                     bubbleSort(arr, size);
                 } else if (strcmp(sortType, "in") == 0) {
@@ -114,6 +115,8 @@ int main(int argc, char* argv[]) {
                 } else if (strcmp(sortType, "sl") == 0) {
                     selectionSort(arr, size);
                 }
+                
+                done = true;
             }
         }
     }
