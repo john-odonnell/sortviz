@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 #include "sorting.h"
 #include "graphics.h"
@@ -106,5 +108,92 @@ extern void mergeSort(int* arr, int size, int left, int subsize) {
     }
     outputRecursive(arr, size, left, left, subsize);
 
+    return;
+}
+
+// quicksort
+// first call: arr, size, 0, random, size
+extern void quickSort(int* arr, int size, int left, int pivot, int subsize) {
+    outputRecursive(arr, size, pivot, left, subsize);
+
+    time_t t;
+
+    if (subsize <= 1) {
+        // base case
+        // return subarrays of length 0 or 1
+        outputRecursive(arr, size, left, left, subsize);
+        return;
+    } else {
+
+        int pivot_value = arr[pivot];
+
+        // sort around pivot and place
+        int _left = left;
+        int _right = left + subsize - 1;
+
+        int placeholder;
+        while (_right > _left) {
+            // move left value until larger than pivot
+            while (_left <= _right && arr[_left] <= pivot_value) {
+                _left++;
+                outputRecursive(arr, size, pivot, left, subsize);
+            }
+            // move right value until larger than pivot
+            while (_left < _right && arr[_right] > pivot_value) {
+                _right--;
+                outputRecursive(arr, size, pivot, left, subsize);
+            }
+            if (_left < _right) {
+
+                // swap left and right values
+                placeholder = arr[_left];
+                arr[_left] = arr[_right];
+                arr[_right] = placeholder;
+
+                // if the pivot was swapped, update pivot position
+                if (_left == pivot) {
+                    pivot = _right;
+                } else if (_right == pivot) {
+                    pivot = _left;
+                }
+                outputRecursive(arr, size, pivot, left, subsize);
+            }
+        }
+        outputRecursive(arr, size, pivot, left, subsize);
+
+        // swap pivot 
+        placeholder = arr[pivot];
+        arr[pivot] = arr[_left -1];
+        arr[_left -1] = placeholder;
+
+        int sorted = _left -1;
+
+        outputRecursive(arr, size, sorted, left, subsize);
+
+        // calculate markers for next recursive call
+        int left_left = left;
+        int right_left = sorted + 1;
+
+        int left_sub = sorted - left;
+        int right_sub = subsize - left_sub - 1;
+
+        // generate two new pivots
+        // one between sorted+1 and (left + subsize - 1)
+        srand((unsigned) time(&t));
+        int left_pivot = 0;
+        int right_pivot = 0;
+        if (left_sub > 0) {
+            left_pivot = (rand() % (sorted - left)) + left;
+        }
+        if (right_sub > 0) {
+            right_pivot = (rand() % ((left + subsize - 1) - (sorted + 1) + 1)) + (sorted + 1);
+        }
+
+        // call quicksort on left and right of pivot
+        quickSort(arr, size, left_left, left_pivot, left_sub);
+        quickSort(arr, size, right_left, right_pivot, right_sub);
+        outputRecursive(arr, size, sorted, left, subsize);
+
+    }
     return;
 }
