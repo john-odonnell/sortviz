@@ -19,4 +19,5 @@ Uses [SDL2](https://www.libsdl.org/index.php) for graphics and event handling.
 | Bubble Sort      | bl                  |
 | Insertion Sort   | in                  |
 | Merge Sort       | mg                  |
+| Quicksort        | qk                  |
 | Selection Sort   | sl                  |

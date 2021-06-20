@@ -20,6 +20,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 
 #include <SDL2/SDL.h>
 
@@ -40,7 +41,7 @@ int main(int argc, char* argv[]) {
         // printf(" => hp : Heap sort\n");
         printf(" => in : Insertion sort\n");
         printf(" => mg : Merge sort\n");
-        // printf(" => qk : Quicksort\n");
+        printf(" => qk : Quicksort\n");
         // printf(" => sh : Shell sort\n");
         printf(" => sl : Selection sort\n");
         return 1;
@@ -68,7 +69,7 @@ int main(int argc, char* argv[]) {
         // printf(" => hp : Heap sort\n");
         printf(" => in : Insertion sort\n");
         printf(" => mg : Merge sort\n");
-        // printf(" => qk : Quicksort\n");
+        printf(" => qk : Quicksort\n");
         // printf(" => sh : Shell sort\n");
         printf(" => sl : Selection sort\n");
         return 1;
@@ -114,8 +115,13 @@ int main(int argc, char* argv[]) {
                     mergeSort(arr, size, 0, size);
                 } else if (strcmp(sortType, "sl") == 0) {
                     selectionSort(arr, size);
+                } else if (strcmp(sortType, "qk") == 0) {
+                    time_t t;
+                    srand((unsigned) time(&t));
+                    int pivot = rand() % size;
+                    quickSort(arr, size, 0, pivot, size);
                 }
-                
+
                 done = true;
             }
         }
